@@ -1,0 +1,6 @@
+.venv/
+src/__pycache__/
+src/concolutional_autoencoder/__pycache__/
+src/concolutional_neural_network/__pycache__/
+src/concolutional_neural_network/__pycache__/
+src/data/
