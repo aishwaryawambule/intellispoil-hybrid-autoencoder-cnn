@@ -1,0 +1,13 @@
+Confusion Matrix:
+[[244  36]
+ [ 64 246]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+     Healthy       0.79      0.87      0.83       280
+      Rotten       0.87      0.79      0.83       310
+
+    accuracy                           0.83       590
+   macro avg       0.83      0.83      0.83       590
+weighted avg       0.83      0.83      0.83       590

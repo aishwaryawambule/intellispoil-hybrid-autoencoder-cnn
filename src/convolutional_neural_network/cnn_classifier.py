@@ -2,6 +2,7 @@ import os
 import sys
 import tensorflow as tf
 from tensorflow.keras import layers, models
+from os import path as os_path
 
 # ---------- SYSTEM SAFETY ----------
 # Allow duplicate OpenMP libraries to prevent conflicts
@@ -65,7 +66,7 @@ outputs = layers.Dense(1, activation="sigmoid")(x)
 cnn = models.Model(inputs, outputs)
 
 cnn.compile(
-    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
+    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
     loss="binary_crossentropy",
     metrics=[
         "accuracy",
@@ -88,13 +89,18 @@ print("Starting training...")
 history = cnn.fit(
     X_train, y_train,
     validation_data=(X_test, y_test),
-    epochs=50,
+    epochs=20,
     batch_size=32,
     callbacks=[early_stop]
 )
 
 # ---------- SAVE MODEL ----------
-os.makedirs(MODEL_DIR, exist_ok=True)
-SAVE_PATH = os.path.join(MODEL_DIR, "cnn_classifier_model.keras")
-cnn.save(SAVE_PATH)
-print(f"Model saved successfully at {SAVE_PATH}")
+# Ensure the model directory exists
+if not os_path.exists(MODEL_DIR):
+    os.makedirs(MODEL_DIR)
+
+print(f"Saving models to {MODEL_DIR}...")
+
+# Save full autoencoder
+cnn.save_weights(os_path.join(MODEL_DIR, "cnn_classifier.weights.h5"))
+cnn.save(os_path.join(MODEL_DIR, "cnn_classifier_model.keras"))

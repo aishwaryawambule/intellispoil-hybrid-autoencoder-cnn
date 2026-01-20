@@ -29,4 +29,4 @@ def limit_files_in_folders(base_path, limit=300):
 
 if __name__ == "__main__":
     dataset_path = "/home/aishwarya/Documents/colz/Msc-DSCI/Modules/Artificial Neural Network/src/data/train_test_dataset"
-    limit_files_in_folders(dataset_path, 300)
+    limit_files_in_folders(dataset_path, 1000)

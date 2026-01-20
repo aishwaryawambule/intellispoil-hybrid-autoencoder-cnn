@@ -10,7 +10,6 @@ sys.path.append(os_path.dirname(SRC_DIR))  # Add parent directory to import data
 
 from data_pipeline import train_ds, test_ds
 
-MODEL_DIR = os_path.abspath(os_path.join(SRC_DIR, "..", "model"))
 
 # ---------- DATA EXTRACTION ----------
 def get_data_and_labels(dataset):

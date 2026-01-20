@@ -7,7 +7,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATASET_PATH = os.path.join(BASE_DIR, "data/train_test_dataset")
 
 IMG_SIZE = 450
-BATCH_SIZE = 4
+BATCH_SIZE = 40
 
 def load_binary_dataset(directory):
     """
