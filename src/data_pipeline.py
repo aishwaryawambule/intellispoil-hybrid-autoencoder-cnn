@@ -4,7 +4,7 @@ import sys
 
 # Define the base directory of the project
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATASET_PATH = os.path.join(BASE_DIR, "data/train_test_dataset")
+DATASET_PATH = os.path.join(BASE_DIR, "data1/train_test_dataset")
 
 IMG_SIZE = 450
 BATCH_SIZE = 40
@@ -23,7 +23,6 @@ def load_binary_dataset(directory):
     ds = tf.keras.utils.image_dataset_from_directory(
         directory,
         label_mode='int', 
-        # class_names=['freshapples', 'rottenapples'], # Removed hardcoded class names to allow flexibility
         image_size=(IMG_SIZE, IMG_SIZE),
         batch_size=BATCH_SIZE
     )
@@ -47,19 +46,19 @@ def load_binary_dataset(directory):
 
     return ds.map(map_to_binary)
 
-def load_dataset(directory, fruit_name):
+def load_dataset(directory, name):
     """
-    Loads a dataset for a specific fruit (e.g., 'banana') and maps it to binary labels.
+    Loads a dataset for a specific fruit/vegetable and maps it to binary labels.
     
     Args:
         directory (str): Path to the dataset directory.
-        fruit_name (str): Name of the fruit to filter by (e.g., 'banana').
+        name (str): Name of the fruit/vegetable to filter by (e.g., 'banana').
         
     Returns:
-        tf.data.Dataset: A dataset yielding (image, label) pairs for the specific fruit.
+        tf.data.Dataset: A dataset yielding (image, label) pairs for the specific fruit/vegetable.
     """
-    # Load only folders for a specific fruit
-    class_names = [f'fresh{fruit_name}', f'rotten{fruit_name}']
+    # Load only folders for a specific fruit/vegetable
+    class_names = [f'fresh{name}', f'rotten{name}']
     ds = tf.keras.utils.image_dataset_from_directory(
         directory,
         label_mode='int', 
@@ -77,12 +76,6 @@ def load_dataset(directory, fruit_name):
 
     return ds.map(map_to_binary)
 
-print("Loading Train Dataset...")
-train_ds = load_binary_dataset(os.path.join(DATASET_PATH, "Train"))
-
-print("\nLoading Test Dataset...")
-test_ds = load_binary_dataset(os.path.join(DATASET_PATH, "Test"))
-
 # Normalization and Prefetching
 def normalize(img, label):
     """
@@ -90,9 +83,24 @@ def normalize(img, label):
     """
     return tf.cast(img, tf.float32) / 255.0, label
 
-train_ds = train_ds.map(normalize).prefetch(tf.data.AUTOTUNE)
-test_ds = test_ds.map(normalize).prefetch(tf.data.AUTOTUNE)
+def get_all_datasets(verbose=False):
+    """
+    Load train/test datasets and autoencoder versions.
+    Returns:
+        train_ds, test_ds, train_ds_aen, test_ds_aen
+    """
+    if verbose:
+        print("Loading Train Dataset...")
+    train_ds = load_binary_dataset(os.path.join(DATASET_PATH, "Train"))
+    train_ds = train_ds.map(normalize).prefetch(tf.data.AUTOTUNE)
 
-# Dataset for Autoencoder (X, X) - Autoencoders learn to reconstruct the input
-train_ds_aen = train_ds.map(lambda x, y: (x, x))
-test_ds_aen = test_ds.map(lambda x, y: (x, x))
+    if verbose:
+        print("\nLoading Test Dataset...")
+    test_ds = load_binary_dataset(os.path.join(DATASET_PATH, "Test"))
+    test_ds = test_ds.map(normalize).prefetch(tf.data.AUTOTUNE)
+
+    # Autoencoder datasets (X, X)
+    train_ds_aen = train_ds.map(lambda x, y: (x, x))
+    test_ds_aen = test_ds.map(lambda x, y: (x, x))
+
+    return train_ds, test_ds, train_ds_aen, test_ds_aen

@@ -13,6 +13,8 @@ The project consists of two main stages:
 ```
 .
 ├── main.py                     # Entry point for prediction
+├── limit_dataset_v2.py         # Utility to limit dataset size
+├── Aishwarya_Rai.pdf           # Project Report
 ├── requirements.txt            # Python dependencies
 ├── src/
 │   ├── convolutional_autoencoder/
@@ -21,7 +23,9 @@ The project consists of two main stages:
 │   │   └── con_aen_decoder.py  # Decoder architecture definition
 │   ├── convolutional_neural_network/
 │   │   ├── cnn_classifier.py   # Script to train the Classifier
-│   │   ├── cnn_model_prediction.py # Script for running predictions
+│   │   ├── cnn_model_inference.py  # Script for running inference
+│   │   ├── cnn_model_evaluation.py # Script for evaluating the model
+│   │   ├── test.ipynb          # Notebook for testing/experiments
 │   │   └── aen_reconstruction.py # Helper to load data for classifier
 │   ├── data_pipeline.py        # Data loading and preprocessing logic
 │   ├── data/              
@@ -72,7 +76,27 @@ uv run main.py
 Or directly run the prediction script:
 
 ```bash
-uv run src/convolutional_neural_network/cnn_model_prediction.py
+uv run src/convolutional_neural_network/cnn_model_inference.py
+```
+
+### 4. Evaluate the Model
+
+To evaluate the trained model's performance on the test dataset:
+
+```bash
+uv run src/convolutional_neural_network/cnn_model_evaluation.py
+```
+
+## Utilities
+
+### Dataset Limiter
+
+If you need to limit the number of images in your dataset folders (e.g., for faster testing), you can use the `limit_dataset_v2.py` script.
+
+```bash
+uv run limit_dataset_v2.py
+```
+*Note: Check the script to adjust the path and limit as needed.*
 ```
 
 ## Dataset

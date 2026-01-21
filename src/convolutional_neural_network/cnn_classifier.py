@@ -89,8 +89,8 @@ print("Starting training...")
 history = cnn.fit(
     X_train, y_train,
     validation_data=(X_test, y_test),
-    epochs=20,
-    batch_size=32,
+    epochs=50,
+    batch_size=40,
     callbacks=[early_stop]
 )
 

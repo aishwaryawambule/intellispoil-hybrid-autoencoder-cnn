@@ -8,8 +8,9 @@ import numpy as np
 SRC_DIR = os_path.dirname(os_path.abspath(__file__))
 sys.path.append(os_path.dirname(SRC_DIR))  # Add parent directory to import data_pipeline
 
-from data_pipeline import train_ds, test_ds
+from data_pipeline import get_all_datasets
 
+train_ds, test_ds, train_ds_aen, test_ds_aen = get_all_datasets(False)
 
 # ---------- DATA EXTRACTION ----------
 def get_data_and_labels(dataset):
@@ -26,7 +27,7 @@ def get_data_and_labels(dataset):
     images_list = []
     labels_list = []
 
-    for batch in dataset.as_numpy_iterator():
+    for batch in dataset:
         img, label = batch
         images_list.append(img)
         labels_list.append(label)
@@ -46,7 +47,7 @@ print(f"Training samples: {len(X_train)}, Test samples: {len(X_test)}")
 # ---------- RECONSTRUCTION PLACEHOLDER ----------
 # The following section is commented out but shows how one might generate reconstructions
 # using the autoencoder if needed.
-print("Generating reconstructed images...")
+# print("Generating reconstructed images...")
 # X_train_recon = autoencoder_model.predict(X_train)
 # X_test_recon  = autoencoder_model.predict(X_test)
-print("Reconstruction complete.")
+# print("Reconstruction complete.")

@@ -3,7 +3,7 @@
 import os
 import sys
 
-from src.convolutional_neural_network.cnn_model_prediction import main
+from src.convolutional_neural_network.cnn_model_inference import main
 
 if __name__ == "__main__":
     """

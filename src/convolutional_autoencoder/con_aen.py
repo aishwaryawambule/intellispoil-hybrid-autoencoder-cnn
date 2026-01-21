@@ -14,7 +14,9 @@ from con_aen_decoder import decoder
 # The original code relied on implicit path setup or running from a specific location.
 # It's better to be explicit if possible, but for now we'll stick to the existing import structure
 # which seems to rely on the script being run in a way that data_pipeline is importable.
-from data_pipeline import train_ds_aen, test_ds_aen, IMG_SIZE
+from data_pipeline import get_all_datasets
+
+train_ds, test_ds, train_ds_aen, test_ds_aen = get_all_datasets(False)
 
 # ---------- MODEL ASSEMBLY ----------
 # Input layer for the autoencoder
